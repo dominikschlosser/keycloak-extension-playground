@@ -1,0 +1,37 @@
+services:
+  cassandra:
+    image: bitnami/cassandra:4.0.6-debian-11-r4
+    environment:
+      - CASSANDRA_DATACENTER=datacenter1
+    ports:
+      - "9042:9042"
+    networks:
+      - keycloak
+    healthcheck:
+      test: ["CMD-SHELL", "cqlsh --username cassandra --password cassandra -e 'describe keyspaces'"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+  keycloak:
+    build:
+      context: .
+      args:
+        KEYCLOAK_DIST: ./keycloak-server/target/keycloak-19.0.2
+    image: keycloak-custom
+    command: start-dev
+    ports:
+      - "8080:8080"
+    environment:
+      - KC_HEALTH_ENABLED=true
+      - KC_TRANSACTION_XA_ENABLED=false
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    depends_on:
+      cassandra:
+        condition: service_healthy
+    networks:
+      - keycloak
+
+networks:
+  keycloak:
+    driver: bridge
