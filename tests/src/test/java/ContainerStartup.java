@@ -14,6 +14,7 @@ public class ContainerStartup {
       DockerComposeContainer container = new DockerComposeContainer<>(Paths.get(System.getProperty("user.dir"), "../docker-compose.yaml").toFile())
             .withLogConsumer("cassandra", new Slf4jLogConsumer(log))
             .withLogConsumer("keycloak", new Slf4jLogConsumer(log))
+            .withLocalCompose(true)
             .waitingFor("keycloak", new DockerHealthcheckWaitStrategy());
 
       container.start();

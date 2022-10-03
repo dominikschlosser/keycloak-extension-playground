@@ -17,14 +17,16 @@ services:
       context: .
       args:
         KEYCLOAK_DIST: ./keycloak-server/target/keycloak-19.0.2
-    command: start-dev
+    command: "start-dev --debug"
     ports:
       - "8080:8080"
+      - "5005:5005"
     environment:
       - KC_HEALTH_ENABLED=true
       - KC_TRANSACTION_XA_ENABLED=false
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
+      - DEBUG_PORT=*:5005
     depends_on:
       cassandra:
         condition: service_healthy

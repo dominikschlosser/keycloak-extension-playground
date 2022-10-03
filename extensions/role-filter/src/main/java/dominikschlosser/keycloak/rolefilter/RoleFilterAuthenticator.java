@@ -3,6 +3,7 @@ package dominikschlosser.keycloak.rolefilter;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.forms.login.LoginFormsProvider;
+import org.keycloak.models.ClientModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.RoleModel;
@@ -13,6 +14,7 @@ import org.keycloak.sessions.AuthenticationSessionModel;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,11 +39,19 @@ public class RoleFilterAuthenticator implements Authenticator {
 
    private static Response prepareRoleSelection(AuthenticationFlowContext context, FormMessage errorMessage) {
       UserModel user = context.getUser();
-      List<RoleModel> allRoles = RoleUtils.expandCompositeRolesStream(user.getRoleMappingsStream()).collect(Collectors.toList());
+      ClientModel client = context.getAuthenticationSession().getClient();
+
+      List<RoleModel> allRoles = new ArrayList<>();
+      allRoles.addAll(RoleUtils.expandCompositeRolesStream(user.getRealmRoleMappingsStream())
+            .filter(role -> role.getContainerId().equals(context.getRealm().getId()))
+            .collect(Collectors.toList()));
+
+      allRoles.addAll(RoleUtils.expandCompositeRolesStream(user.getClientRoleMappingsStream(client))
+            .collect(Collectors.toList()));
 
       LoginFormsProvider loginProvider = context.form().setAttribute("roles", allRoles);
 
-      if(errorMessage != null) {
+      if (errorMessage != null) {
          loginProvider.addError(errorMessage);
       }
 
