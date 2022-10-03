@@ -17,7 +17,6 @@ services:
       context: .
       args:
         KEYCLOAK_DIST: ./keycloak-server/target/keycloak-19.0.2
-    image: keycloak-custom
     command: start-dev
     ports:
       - "8080:8080"
