@@ -5,7 +5,6 @@ import org.keycloak.models.ProtocolMapperModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.protocol.ProtocolMapper;
 import org.keycloak.protocol.oidc.mappers.AbstractOIDCProtocolMapper;
-import org.keycloak.protocol.oidc.mappers.GroupMembershipMapper;
 import org.keycloak.protocol.oidc.mappers.OIDCAccessTokenMapper;
 import org.keycloak.protocol.oidc.mappers.OIDCAttributeMapperHelper;
 import org.keycloak.protocol.oidc.mappers.OIDCIDTokenMapper;
@@ -26,7 +25,7 @@ public class FilteredClientRolesTokenMapper extends AbstractOIDCProtocolMapper i
 
    static {
       OIDCAttributeMapperHelper.addTokenClaimNameConfig(configProperties);
-      OIDCAttributeMapperHelper.addIncludeInTokensConfig(configProperties, GroupMembershipMapper.class);
+      OIDCAttributeMapperHelper.addIncludeInTokensConfig(configProperties, FilteredClientRolesTokenMapper.class);
    }
 
    @Override
