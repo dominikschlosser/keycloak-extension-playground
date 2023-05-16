@@ -18,13 +18,13 @@
    <properties>
       <!-- general settings -->
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <java.version>11</java.version>
+      <java.version>17</java.version>
       <maven.compiler.source>${java.version}</maven.compiler.source>
       <maven.compiler.target>${java.version}</maven.compiler.target>
 
       <!-- Keycloak -->
-      <keycloak.version>19.0.2</keycloak.version>
-      <quarkus.version>2.7.5.Final</quarkus.version>
+      <keycloak.version>21.0.2</keycloak.version>
+      <quarkus.version>2.13.7.Final</quarkus.version>
 
       <!-- Dependencies for extensions -->
       <freemarker.version>2.3.31</freemarker.version>
@@ -37,7 +37,7 @@
 
       <!-- Tooling -->
       <auto-service.version>1.0.1</auto-service.version>
-      <lombok.version>1.18.24</lombok.version>
+      <lombok.version>1.18.26</lombok.version>
       <maven-failsafe-plugin.version>2.22.2</maven-failsafe-plugin.version>
       <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
    </properties>

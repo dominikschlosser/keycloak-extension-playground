@@ -103,6 +103,11 @@
          <artifactId>keycloak-role-filter</artifactId>
          <version>1.0.0-SNAPSHOT</version>
       </dependency>
+      <dependency>
+         <groupId>com.github.dominikschlosser</groupId>
+         <artifactId>simple-captcha</artifactId>
+         <version>1.0.0-SNAPSHOT</version>
+      </dependency>
    </dependencies>
 
    <build>
