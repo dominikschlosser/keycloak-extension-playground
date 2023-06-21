@@ -12,8 +12,11 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
-public class SimpleCaptchaAuthenticator implements Authenticator {
+public class SecureCaptchaAuthenticator implements Authenticator {
+   private static final Random RNG = new Random();
+
    public static final String LABEL_CONFIG = "captcha.labelConfig";
    private static final String TEMPLATE = "captcha.ftl";
    private static final String SOLUTION_NOTE = "correctCaptchaSolution";
@@ -31,7 +34,7 @@ public class SimpleCaptchaAuthenticator implements Authenticator {
       List<String> captchaSolution = formParameters.get("captchaSolution");
 
       String solution = context.getAuthenticationSession().getAuthNote(SOLUTION_NOTE);
-      if(captchaSolution.isEmpty() || !captchaSolution.get(0).equals(solution)) {
+      if(captchaSolution.isEmpty() || !captchaSolution.get(0).toLowerCase().equals(solution.toLowerCase())) {
          FormMessage errorMessage = new FormMessage("captchaSolution",
                "Lösung ist falsch");
 
@@ -44,16 +47,20 @@ public class SimpleCaptchaAuthenticator implements Authenticator {
 
    private static Response prepareChallenge(AuthenticationFlowContext context,
                                             FormMessage errorMessage) {
-      int firstAddend = (int)(Math.random() * 10) + 1;
-      int secondAddend = (int)(Math.random() * 10) + 1;
+      int randomResult = RNG.nextInt(2);
 
-      String challengeText = String.format("Was ist %d + %d", firstAddend, secondAddend);
-      context.getAuthenticationSession().setAuthNote(SOLUTION_NOTE, String.valueOf(firstAddend + secondAddend));
+      String challengeImage = "";
+      if(randomResult == 0) {
+         challengeImage = "spock.jpg";
+         context.getAuthenticationSession().setAuthNote(SOLUTION_NOTE, "Spock");
+      } else {
+         challengeImage = "lumi.jpg";
+         context.getAuthenticationSession().setAuthNote(SOLUTION_NOTE, "Lumi");
+      }
 
-      Map<String, String> config = context.getAuthenticatorConfig().getConfig();
       LoginFormsProvider loginProvider = context.form()
-            .setAttribute("challengeText", challengeText)
-            .setAttribute("label", config.get(LABEL_CONFIG));
+            .setAttribute("challengeImage", challengeImage)
+            .setAttribute("label", "Wie heißt diese Katze?");
 
       if (errorMessage != null) {
          loginProvider.addError(errorMessage);

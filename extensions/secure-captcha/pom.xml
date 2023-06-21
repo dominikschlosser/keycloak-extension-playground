@@ -11,7 +11,7 @@
       <relativePath>../pom.xml</relativePath>
    </parent>
 
-   <artifactId>simple-captcha</artifactId>
+   <artifactId>secure-captcha</artifactId>
 
    <properties>
    </properties>

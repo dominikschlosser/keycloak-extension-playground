@@ -10,7 +10,8 @@
                         <span>${msg("captcha.header")}</span>
                     </h3>
                     <div class="${properties.kcFormGroupClass!}">
-                        <label for="captchaSolution" class="${properties.kcLabelClass!}">${label}${challengeText}</label>
+                        <img src="${url.resourcesPath}/${challengeImage}" />
+                        <label for="captchaSolution" class="${properties.kcLabelClass!}">${label}</label>
                         <input type="text" name="captchaSolution">
                     </div>
 

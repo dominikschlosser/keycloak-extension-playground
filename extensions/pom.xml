@@ -16,7 +16,7 @@
 
    <modules>
       <module>role-filter</module>
-      <module>simple-captcha</module>
+      <module>secure-captcha</module>
    </modules>
 
    <properties>
